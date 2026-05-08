@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Organizations and all sub-collections
+    match /organizations/{orgId}/{document=**} {
+      // Allow authenticated users to read and write
+      // In production, add more granular rules based on user roles
+      allow read, write: if isAuthenticated();
+    }
+
+    // Special rule for events - allow server-side writes from Cloud Functions
+    // Events collection needs to be writable by unauthenticated Cloud Functions
+    match /organizations/{orgId}/events/{eventId} {
+      // Authenticated users can read
+      allow read: if isAuthenticated();
+      // Anyone can write (for tracking pixels from Cloud Functions)
+      // Cloud Functions use Admin SDK which bypasses these rules anyway
+      allow write: if true;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST version="4.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iab.com/VAST">
+  <Ad id="abc123">
+    <InLine>
+      <AdSystem version="1.0">VAST Platform MVP</AdSystem>
+      <AdTitle><![CDATA[Example Video Ad]]></AdTitle>
+      <Description><![CDATA[Video Advertisement]]></Description>
+
+      <!-- Impression Tracking: Fired when ad loads -->
+      <Impression><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=impression&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></Impression>
+
+      <Creatives>
+        <Creative id="xyz789" sequence="1">
+          <Linear>
+            <!-- Video duration in HH:MM:SS format -->
+            <Duration>00:00:30</Duration>
+
+            <!-- Tracking Events: Fired at specific points during playback -->
+            <TrackingEvents>
+              <Tracking event="start"><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=start&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></Tracking>
+              <Tracking event="firstQuartile"><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=firstQuartile&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></Tracking>
+              <Tracking event="midpoint"><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=midpoint&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></Tracking>
+              <Tracking event="thirdQuartile"><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=thirdQuartile&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></Tracking>
+              <Tracking event="complete"><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=complete&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></Tracking>
+            </TrackingEvents>
+
+            <!-- Click Handling -->
+            <VideoClicks>
+              <!-- ClickThrough: Where user is redirected when they click the ad -->
+              <ClickThrough><![CDATA[https://us-central1-myproject.cloudfunctions.net/click?tagId=abc123&creativeId=xyz789&redirect=https%3A%2F%2Fexample.com%2Flanding-page]]></ClickThrough>
+
+              <!-- ClickTracking: Tracking pixel fired when ad is clicked -->
+              <ClickTracking><![CDATA[https://us-central1-myproject.cloudfunctions.net/track?event=click&tagId=abc123&creativeId=xyz789&cb=[CACHEBUSTING]]]></ClickTracking>
+            </VideoClicks>
+
+            <!-- Media Files: The actual video file to play -->
+            <MediaFiles>
+              <MediaFile
+                delivery="progressive"
+                type="video/mp4"
+                width="1920"
+                height="1080">
+                <![CDATA[https://firebasestorage.googleapis.com/v0/b/myproject.appspot.com/o/organizations%2Forg-default%2Fcreatives%2Fxyz789%2Fvideo.mp4?alt=media&token=...]]>
+              </MediaFile>
+            </MediaFiles>
+          </Linear>
+        </Creative>
+      </Creatives>
+    </InLine>
+  </Ad>
+</VAST>
